@@ -1,0 +1,103 @@
+<%- include('../partials/user/userHeader') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Product List</title>
+
+
+    <style>
+        
+        .container {
+            max-width: 1200px;
+            margin:  auto;
+        }
+
+        .card-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px; 
+            margin-top: 100px;
+        }
+
+        .card {
+            width: 18rem;
+            margin-top: 50px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .card-text {
+            color: #555;
+        }
+
+        .card-price {
+            color: #e44d26; 
+            font-size: 1.1rem;
+            font-weight: bold;
+            
+        }
+
+       
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card-list">
+          
+            <% product.forEach(item => { %>
+                <a href="/users/product-single-view/<%= item._id %>" >
+                    <div class="card">
+                        <img src="/uploads/<%= item.images[0].url %>" alt="<%= item.name %>">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= item.title %></h5>
+                            <p class="card-text"><%= item.desc %></p>
+                            <p class="card-price">Rs.<%= item.price.toFixed(2) %></p>
+                        </div>
+                    </div>
+                </a>
+            <% }); %>
+          
+        </div>
+    </div>
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+<%- include('../partials/user/userFooter.ejs') %>

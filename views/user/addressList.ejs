@@ -1,0 +1,133 @@
+<%- include('../partials/user/userHeader') %>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+      
+        .card {
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+        }
+
+        .sidebar {
+            background-color: #e0e7ee73;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 8px;
+            color: black;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .profile-image {
+            max-width: 150px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 d-none d-md-block sidebar" style="padding: 30px;">
+                <div class="text-center" style="text-align: center; margin: 20px;">
+                    <label for="profilePicture">
+                        <img id="preview" src="/profilePictures/<%= user.image %>" style="border-radius: 50%;" alt="Profile Picture" width="100">
+                    </label>
+                    <h4 class="text-black mt-3"><%= user.username %></h4>
+                </div>
+                <a href="/users/edit-product-page">
+                    <button>Edit-profile</button>
+                </a>
+                <ul class="nav flex-column mt-4">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/users/orders">
+                            <i class="fas fa-shopping-cart"></i> Orders
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/addresses">
+                            <i class="fas fa-map-marker-alt"></i> Addresses
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/wallet">
+                            <i class="fas fa-wallet"></i> Wallet
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Main Content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-9 px-4">
+                <div class="main-body">
+
+                    <% if (!userAddresses || !userAddresses.addresses || userAddresses.addresses.length === 0) { %>
+
+                        <div style="display: flex; justify-content: space-between;">
+                            <h2>ADDRESSES</h2>
+                            <a href="/users/add-address-page"><button class="btn-success">Add Address</button></a>
+                        </div>
+                        <h1>No Address Available</h1>
+
+                    <% } else { %>
+
+                        <div style="display: flex; justify-content: space-between;">
+                            <h2>ADDRESSES</h2>
+                            <a href="/users/add-address-page"><button class="btn-success">Add Address</button></a>
+                        </div>
+
+                        <% userAddresses.addresses.forEach(data => { %>
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4 style="font-size: 18px;"><%= data.firstName %> <%= data.lastName %></h4>
+                                            <p style="font-size: 14px;">+91 <%= data.phone %></p>
+                                            <p style="font-size: 14px;"><%= data.addressDetail %></p>
+                                            <p style="font-size: 14px;"><%= data.state %>-<%= data.zip %></p>
+                                        </div>
+                                        <div>
+                                            <a href="/users/edit-address-page/<%= data._id %>" class="btn btn-success">Edit</a>
+                                            <a href="/users/delete-address/<%= data._id %>" class="btn btn-danger">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+
+                    <% } %>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

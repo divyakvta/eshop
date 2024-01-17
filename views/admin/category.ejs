@@ -1,0 +1,165 @@
+<%- include('../partials/admin/adminHeader.ejs') %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Management</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+    
+   h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 2em;
+            margin-top: 100px;
+        }
+    
+        table {
+          margin-top: 20px;
+          width: 70%;
+          background-color: #fff;
+          
+        }
+    
+        table, th, td {
+          border: 1px solid #ddd;
+        }
+    
+        th, td {
+          padding: 12px;
+          text-align: left;
+        }
+    
+        th {
+          background-color: rgb(183, 51, 51);
+          color: #fff;
+        }
+
+    .badge {
+        font-size: 14px;
+        
+    }
+
+    input[type="text"] {
+        width: 70%;
+        padding: 8px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    button[type="submit"] {
+        margin-left: 10px;
+        padding: 8px 20px;
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #218838;
+    }
+
+</style>
+
+</head>
+
+<body>
+   
+   
+    <% if (toastMessage) { %>
+   
+        <div class="toast" id="myToast"  aria-live="polite" aria-atomic="true" data-delay="2000" style="background-color: #28a745;">
+            <div role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-body">
+                    <%= toastMessage %>
+                </div>
+            </div>
+        </div>
+    <% } %>
+
+<div class="container">
+   
+<h1>Category Management</h1>
+ <a href="/admin/category-offer-page">
+
+        <button  class="btn btn-primary">Add category offer</button>
+    
+        </a>
+    <table class=" table-container table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+                <th scope="col">Offers</th>
+            </tr>
+        </thead>
+        <% if (category) { %>
+            <tbody>
+                <% category.forEach((cat, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= cat.categoryName %></td>
+                        <td>
+                            <% if (cat.active) { %>
+                                <span class="badge badge-success">Active</span>
+                            <% } else { %>
+                                <span class="badge badge-danger">Inactive</span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if (cat.active) { %>
+                                <a href="/admin/deactivate-category/<%= cat._id %>" class="btn btn-danger">Deactivate</a>
+                            <% } else { %>
+                                <a href="/admin/activate-category/<%= cat._id %>" class="btn btn-success">Activate</a>
+                            <% } %>
+                            <a href="/admin/edit-category-page/<%= cat._id %>" class="btn btn-primary">Edit</a>
+                        </td>
+                        <td>
+                           
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        <% }else{ %>
+            <h2>No category available</h2>
+ <% } %>
+        </table>
+        <form action="/admin/add-category" method="post">
+
+    <div class="form-group">
+        <input type="text" required name="category" class="form-control" placeholder="Enter category name">
+    </div>
+    <button type="submit" class="btn btn-primary">Add category</button>
+
+</form>
+
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const myToastElement = document.getElementById('myToast');
+
+
+        const myToast = new bootstrap.Toast(myToastElement);
+
+            myToast.show();
+        
+    });   
+</script>
+
+<!-- Add Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

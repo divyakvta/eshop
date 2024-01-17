@@ -1,0 +1,110 @@
+<%- include('../partials/admin/adminHeader.ejs') %>
+
+<% if (messages.length > 0) { %>
+  <div id="flash-message" class="alert" style="text-align: right;  color: #155724; border-radius: 4px; padding: 10px; margin-bottom: 10px;">
+    <%= messages %>
+  </div>
+<% } %>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel - User Management</title>
+  <style>
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+        font-size: 2em;
+        margin-top: 100px;
+    }
+
+    table {
+        margin-top: 20px;
+      width: 100%;
+      background-color: #fff;
+      border-collapse: collapse;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: rgb(183, 51, 51);
+      color: #fff;
+    }
+
+    .actions {
+      text-align: center;
+    }
+
+    .add-product-btn {
+        position: absolute;
+        top: 70px;
+        right: 10px;
+    }
+</style>
+</head>
+<body>
+
+ 
+
+  <div class="container">
+    <h1>User Management</h1>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      <% user.forEach((person,index) => { %>
+        <tr>
+          <td><%= index+1 %></td>
+          <td><%= person.username %></td>
+          <td><%= person.email %></td>
+          <td>
+            <% if (!person.blocked) { %>
+              <span class="badge badge-success">Active</span>
+            <% } else { %>
+              <span class="badge badge-danger">Blocked</span>
+            <% } %>
+          </td>
+          <td class="actions">
+            <% if (!person.blocked) { %>
+              <a href="/admin/block/<%= person._id %>"> <button class="button delete btn-danger" onclick="myConfirm('<%= person._id %>')">Block</button></a>
+            <% } else { %>
+              <a href="/admin/unblock/<%= person._id %>"  class="button btn-success ">Unblock</a>
+              
+            <% } %>
+          </td>
+          
+        </tr>
+      <% }) %>
+    
+    </table>
+  </div>
+  <script>
+    function myConfirm(personId) {
+        var result = confirm("Are you sure you want to block this user?");
+        if (result) {
+            
+            alert("Blocked the user");
+            window.location.href = "/admin/block/" + personId + "?confirmation=true";
+        } else {
+            
+            alert(" canceled");
+            window.location.href = '/admin/user-management';
+        }
+    }
+</script>
+  
+</body>
+</html>

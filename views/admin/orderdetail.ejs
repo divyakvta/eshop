@@ -1,0 +1,119 @@
+<%- include('../partials/admin/adminHeader') %>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Order Detail  </title>
+  <!-- Add Bootstrap CSS link -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+   
+    .card {
+      margin-top: 100px;
+      border: none;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px; 
+      text-align: left;
+      border: 1px solid #dee2e6;
+    }
+    img {
+      max-width: 50px;
+      max-height: 50px;
+      margin-right: 10px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .address {
+      white-space: pre-line;
+      margin: 0;
+    }
+    .order-status {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">Order Detail- </h2><h4><%= order._id %></h4>
+        
+        <table class="table">
+          <tbody>
+            <tr>
+              <th scope="row">Products Ordered</th>
+              <td>
+                <% order.items.forEach(product => { %>
+                  <div>
+                    <img src="/uploads/<%= product.image %>" alt="<%= product.name %>">
+                    <%= product.name %> <br> Quantity: <%= product.quantity %>
+                  </div>
+                <% }); %>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Address</th>
+              <td class="address">
+                <%= order.address.firstName %> <%= order.address.lastName %>,<br> <%= order.address.landmark %>
+                <%= order.address.addressDetail %>,<br> <%= order.address.state %><br>Pin: <%= order.address.zip %>,
+                Phone: <%= order.address.phone %>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Payment Method</th>
+              <td><%= order.paymentMethod %></td>
+            </tr>
+            <tr>
+              <th scope="row">Order Status</th>
+              <td class="order-status">
+             <% if (order.returned) { %>
+              <h3 style="color: red;">Order Returned</h3>
+             <% }else{ %>
+              <h6> <%= order.orderStatus %></h6>
+              <form action="/admin/updateOrderStatus" method="post">
+                <div class="form-group">
+                  <label for="orderStatus">Select Order Status:</label>
+                  <select class="form-control" name="orderStatus" id="orderStatus">
+                    <option value="Order Placed" >Order Placed</option>
+                    <option value="Preparing">Preparing</option>
+                    <option value="Out for Delivery">Out for Delivery</option>
+                    <option value="Delivered">Delivered</option>
+                  </select>
+                </div>
+                <input type="hidden" name="orderId" value="<%= order._id %>">
+                <button type="submit" class="btn btn-primary">Update Status</button>
+               
+              </form>
+              <div>
+                <% if (order.returnRequest === true) { %><br>
+                  <p style="color: red; font-size: 20px;"> User Requested for Return </p>
+                  <a href="/admin/aprove-return/<%= order._id %>"><button class="btn btn-success">Approve  </button></a>
+                  <a href="/admin/decline-return/<%= order._id %>"><button class="btn btn-danger">Decline </button></a>
+                  <% } %>
+              </div>
+              <% } %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Bootstrap JS and Popper.js scripts -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

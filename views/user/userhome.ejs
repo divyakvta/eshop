@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Angel Boutique</title>
+    <style>
+        body {
+            background-color: #f8f9fa; /* Set a light background color */
+        }
+
+        .header-home {
+            background-color: #ffffff; /* Set a white background color for the header */
+        }
+
+        .navbar {
+            background-color: #6c757d; /* Set a gray background color for the navbar */
+        }
+
+        .navbar-brand,
+        .navbar-nav .nav-link {
+            color: #ffffff;
+            width: 100%; /* Set text color for the navbar links */
+        }
+
+        .navbar-toggler-icon {
+            background-color: #ffffff; /* Set background color for the navbar toggler icon */
+        }
+
+        .container-fluid {
+            max-width: 100%; /* Set 100% width for the container */
+        }
+
+        section {
+            padding: 40px 0; /* Add some padding to sections for better spacing */
+        }
+
+        .col-6 {
+            position: relative;
+            margin-bottom: 20px;
+            margin-top: 180px; /* Add margin between columns */
+        }
+
+        .img-fluid {
+            border-radius: 8px; /* Add a slight border radius to images */
+            width: 850px; /* Set 100% width for images */
+            height: 400px; /* Maintain aspect ratio */
+        }
+
+        .col-6 a {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center the text */
+            color: #0e0d0d;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.5em;
+            background: rgba(255, 255, 255, 0.8); /* Add a semi-transparent background for better readability */
+            padding: 10px; /* Add padding to the text */
+            border-radius: 8px; /* Add border radius to the text background */
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <section class="header-home">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-dark">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" href="#">Angel Boutique</a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">About</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Contact</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of Header Section -->
+
+    <section>
+        <div class="container-fluid text-center">
+            <div class="row">
+                <div class="col-6 "> 
+                    <a href="/users/all-products">
+                        <img src="/assets/images/frock3.jpg" alt="Image 1" class="img-fluid">
+                        Ladies
+                    </a>
+                </div>
+                <div class="col-6 "> 
+                    <a href="/users/all-products">
+                        <img src="/assets/images/frock5.jpg" alt="Image 2" class="img-fluid">
+                        Kids
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy8YO5Blsz/fA0qxmj9l5Pe6PUE00jKAaf"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofU5nxvxfXcNlFf/sBmPbMIbb2C5G5AStZ"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

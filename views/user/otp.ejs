@@ -1,0 +1,110 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: auto;
+            margin-top: 50px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-container {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #0083b0;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #f4f4f4;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #0083b0;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container form-container">
+        <h1>Enter otp</h1>
+        <form action="/users/verify" method="POST">
+            <div class="input-container">
+               
+                <input type="hidden" id="email" name="id" value="<%= user._id %>" required>
+            </div>
+
+            <div class="input-container">
+                <label for="otp">Otp:</label>
+                <input type="otp" id="otp" name="otp" required>
+            </div>
+
+            <input type="hidden" name="refUser" value="<%= refUser %>">
+
+            <button type="submit">Log In</button>
+            
+        </form>
+
+        <div id="resend"></div>
+    </div>
+
+    <script>
+        let time = 30;
+    
+        function decrementTime() {
+            time--;
+        }
+    
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+        }
+    
+        function timeDecrementDisplay() {
+            decrementTime();
+            document.getElementById('resend').innerHTML = formatTime(time);
+        }
+    
+        let timer = setInterval(timeDecrementDisplay, 1000);
+    
+        let stopper = setTimeout(() => {
+            clearInterval(timer);
+            document.getElementById('resend').innerHTML = '<a href="/users/resend-email-otp/<%= user._id %>"><button  class="btn btn-sm bg-primary" >Resend OTP</button></a>';
+        }, 30000);
+    </script>
+    
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

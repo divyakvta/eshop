@@ -1,0 +1,80 @@
+<%- include('../partials/user/userHeader') %>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wallet</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/styles/wallet.css">
+</head>
+
+<body>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card border-primary">
+                    <div class="card-header">
+                        <h2 class="mb-4">My Wallet <i class="fas fa-wallet"></i></h2>
+                    </div>
+                    <div class="card-body">
+                        <% if (!wallet) { %>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Wallet is Empty</h5>
+                                </div>
+                            </div>
+                        <% } else { %>
+                            <!-- Balance Section -->
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">Current Balance:</h5>
+                                    <p class="card-text balance-amount">Rs.<%= wallet.walletBalance.toFixed(2) %> <i class="fas fa-coins"></i></p>
+                                </div>
+                            </div>
+
+                            <!-- Transaction History Section -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Transaction History <i class="fas fa-history"></i></h5>
+
+                                    <% if (!transaction) { %>
+                                        <p class="card-text">No transactions yet</p>
+                                    <% } else { %>
+                                        <ul class="list-group list-group-flush transaction-list">
+                                            <% transaction.transaction.forEach(trans => { %>
+                                                <li class="list-group-item transaction-item">
+                                                    <div class="transaction-details">
+                                                        <p class="transaction-time"><%= trans.time.toLocaleDateString() %> <%= trans.time.toLocaleTimeString() %></p>
+                                                        <p class="transaction-mode"><i class="fas fa-exchange-alt"></i> <%= trans.mode %></p>
+                                                    </div>
+                                                    <p class="transaction-amount">Rs. <%= trans.amount.toFixed(2) %></p>
+                                                </li>
+                                            <% }); %>
+                                        </ul>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Add your JavaScript or include scripts here -->
+    <script src="/scripts/wallet.js"></script>
+</body>
+
+</html>

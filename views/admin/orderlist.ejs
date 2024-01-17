@@ -1,0 +1,83 @@
+<%- include('../partials/admin/adminHeader.ejs') %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 2em;
+            margin-top: 100px;
+        }
+    
+        table {
+          margin-top: 20px;
+          width: 100%;
+          background-color: #fff;
+         
+        }
+    
+        table, th, td {
+          border: 1px solid #ddd;
+        }
+    
+        th, td {
+          padding: 12px;
+          text-align: left;
+        }
+    
+        th {
+          background-color: rgb(183, 51, 51);
+          color: #fff;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Order List</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Order ID</th>
+            <th scope="col">Purchase Date</th>
+            <th scope="col">Total Amount</th>
+            <th scope="col">Details</th>
+        </tr>
+        </thead>
+        <tbody>
+            <% console.log('Orders:', orders); %>
+            <% if (orders && orders.length > 0) { %>
+                <% orders.forEach(order => { %>
+                        <tr>
+                            <td><%= order._id %></td>
+                            <td><%= (new Date(order.createdAt)).toLocaleString('en-US', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false }) %></td>
+                            <td><%= order.totalPrice %></td>
+                            <td>
+                                <div class="details">
+                                    <a href="/admin/order-detail/<%= order._id %>">View Details</a>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="6">No orders found</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

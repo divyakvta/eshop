@@ -1,0 +1,138 @@
+<%- include('../partials/admin/adminHeader') %>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Category Offer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4caf50;
+            margin-bottom: 20px;
+        }
+
+        .coupon-form {
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .card {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .card-item {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: 20%;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .card-item:hover {
+            transform: scale(1.05);
+        }
+
+        .card-item h1 {
+            color: #4caf50;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .card-item h5 {
+            color: #333;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Add Product Offer <i class="fas fa-tags"></i></h1>
+    <div class="coupon-form">
+        <form action="/admin/add-product-offer/<%= product._id %>" method="post">
+
+            <label for="offerPercentage">Discount Percentage <i class="fas fa-percent"></i>:</label>
+            <select name="offerPercentage" id="offerPercentage">
+                <option value="">Select Discount</option>
+                <option value="0">0%</option>
+                <option value="10">10%</option>
+                <option value="20">20%</option>
+                <option value="30">30%</option>
+                <option value="40">40%</option>
+                <option value="50">50%</option>
+                <option value="60">60%</option>
+            </select>
+
+            <div class="form-group">
+                <label for="product">Product <i class="fas fa-tags"></i>:</label>
+                <input type="text" name="product" id="" value="<%= product.title %>">
+            </div>
+
+            <button type="submit">Add Coupon <i class="fas fa-plus-circle"></i></button>
+        </form>
+    </div>
+    <p id="error-message" style="color: #45a049; text-align: center;"><%= err %></p>
+    
+
+    <script>
+        setTimeout(() => {
+          document.getElementById('error-message').style.display = 'none';
+        }, 3000); // Hide the message after 3 seconds
+        </script>
+</body>
+</html>

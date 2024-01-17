@@ -1,0 +1,305 @@
+<%- include('../partials/user/userHeader') %>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
+  form {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  .form-container {
+    width: 50%;
+    background-color: #fff;
+    padding: 30px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    text-decoration: underline;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  label {
+    font-weight: bold;
+  }
+  textarea {
+    resize: none;
+  }
+  .btn-success {
+    width: 100%;
+  }
+</style>
+</head>
+<body>
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      form {
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+      }
+      .form-container {
+        width: 50%;
+        background-color: #fff;
+        padding: 30px;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        text-decoration: underline;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      label {
+        font-weight: bold;
+      }
+      textarea {
+        resize: none;
+      }
+      .btn-success {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+  
+    <form action="/users/add-address" method="post" id="myForm" onsubmit="return addAddress(this)">
+      <div class="form-container">
+        <h1>Enter your Details</h1>
+  
+        <div class="form-group row">
+          <div class="col-md-6">
+            <label for="fname" class="text-black">First Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="fname" onkeyup="validateFirstname()" name="firstName" required>
+            <span class="firstname-error" style="color: red;"></span>
+          </div>
+          <div class="col-md-6">
+            <label for="lname" class="text-black">Last Name <span class="text-danger" >*</span></label>
+            <input type="text" class="form-control" id="lname" onkeyup="validateLastname()" name="lastName" required>
+            <span class="lastname-error" style="color: red;"></span>
+          </div>
+        </div>
+  
+        <div class="form-group row">
+          <div class="col-md-12">
+            <label for="landmark" class="text-black">Landmark </label>
+            <input type="text" class="form-control" onkeyup="validateLandmark()" id="landmark" name="landmark">
+            <span class="landmark-error" style="color: red;"></span>
+          </div>
+        </div>
+  
+        <div class="form-group row">
+          <div class="col-md-12">
+            <label for="address" class="text-black">Address <span class="text-danger">*</span></label>
+            <textarea class="form-control" name="addressDetail" onkeyup="validateAddress()" id="address" rows="3" required></textarea>
+            <span class="address-error" style="color: red;"></span>
+          </div>
+        </div>
+  
+        <div class="form-group row">
+          <div class="col-md-6">
+            <label for="stateIn" class="text-black">State <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="stateIn" onkeyup="validateState()" name="state" required>
+            <span class="state-error" style="color: red;"></span>
+          </div>
+          <div class="col-md-6">
+            <label for="zip" class="text-black">Postal / Zip <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="zip" onkeyup="validateZip()" name="zip" required>
+            <span class="zip-error" style="color: red;"></span>
+          </div>
+        </div>
+  
+        <div class="form-group row mb-5">
+          <div class="col-md-6">
+            <label for="phone" class="text-black">Phone <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="phone" onkeyup="validatePhone()" name="phone" placeholder="Phone Number" required>
+            <span id="phone-error" style="color: red;"></span>
+          </div>
+        </div>
+  
+        <div id="toast"></div>
+        <button type="submit" class="btn btn-success" id="toastify">Submit</button>
+      </div>
+</form>
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/js/all.min.js"></script>
+
+  
+<script>
+  
+function addAddress(form) {
+  var toast = Toastify({
+    text: 'New Address Added!',
+    duration: 5000, 
+    gravity: 'top',
+    position: 'center',
+    backgroundColor: 'linear-gradient(to right, #00b09b, #96c93d)',
+  });
+  toast.showToast();
+  
+  setTimeout(function () {
+    window.location.href = "/users/addresses";
+  }, 2000);
+
+  
+  return true;
+}
+
+
+
+
+
+      const firstNameErr = document.querySelector('.firstname-error');
+      const lastNameErr = document.querySelector('.lastname-error');
+      const landmarkErr = document.querySelector('.landmark-error');
+      const addressErr = document.querySelector('.address-error');
+      const stateErr = document.querySelector('.state-error');
+      const zipErr = document.querySelector(".zip-error");
+      const phoneErr = document.querySelector('.phone-error');
+
+      function validateFirstname(){
+       const fname = document.getElementById("fname").value;
+
+       if(fname.trim() === ''){
+        firstNameErr.innerHTML = 'Firstname required';
+        return false;
+       }
+
+       if(!fname.match(/^[A-Za-z\s'-]+$/)){
+        firstNameErr.innerHTML = 'Invaild Entry'
+        return false;
+       }
+
+       firstNameErr.innerHTML = '<i  style="color: green;" class="fa-solid fa-circle-check"></i>';
+       return true;
+      }
+
+      function validateLastname(){
+        const lname = document.getElementById('lname').value;
+
+        if(lname.trim() === ''){
+          lastNameErr.innerHTML = 'Lastname required';
+          return false;
+        }
+
+        if(!lname.match(/^[A-Za-z\s'-]+$/)){
+          lastNameErr.innerHTML = 'Inavild Entry';
+          return false;
+        }
+ 
+       lastNameErr.innerHTML = '<i  style="color: green;" class="fa-solid fa-circle-check"></i>';
+       return true;
+      }
+
+      function validateLandmark(){
+        const lmark = document.getElementById('landmark').value;
+
+        if(lmark.trim() === ''){
+          landmarkErr.innerHTML = 'Landmark required'; 
+          return false;
+        }
+        if(!lmark.match(/^[A-Za-z\s'-]+$/)){
+          landmarkErr.innerHTML = 'Invalid Entry';
+          return false;
+        }
+      
+        landmarkErr.innerHTML = '<i  style="color: green;" class="fa-solid fa-circle-check"></i>';
+       return true;
+
+      }
+  
+      function validateAddress(){
+       const address = document.getElementById('address').value;
+
+       if(address.trim() === ''){
+        addressErr.innerHTML = 'Address required';
+        return false;
+       }
+       addressErr.innerHTML =  '<i  style="color: green;" class="fa-solid fa-circle-check"></i>';
+       return true;
+      }
+
+      function validateState(){
+        const state = document.getElementById('stateIn').value;
+
+        if(state.trim() === ''){
+           stateErr.innerHTML = 'State required'
+           return false;
+        }
+
+        if(!state.match(/^[A-Za-z\s'-]+$/)){
+          stateErr.innerHTML = 'Invalid Entry';
+          return false;
+        }
+
+        stateErr.innerHTML = '<i  style="color: green;" class="fa-solid fa-circle-check"></i>';
+        return true;
+      }
+
+      function validateZip(){
+        const zip = document.getElementById('zip').value;
+
+        if(zip < 1){
+          zipErr.innerHTML = 'Zip code required';
+          return false;
+        }
+
+        if(zip.match(/^[A-Za-z\s'-]+$/)){
+          zipErr.innerHTML = 'Invalid Entry';
+          return false;
+        }
+
+        zipErr.innerHTML = '<i  style="color: green;" class="fa-solid fa-circle-check"></i>';
+        return true;
+      }
+
+      document.getElementById('myForm').addEventListener('submit', function(event) {
+    if (!validatePhone()) {
+        event.preventDefault();
+    }
+});
+
+    function validatePhone() {
+    const phone = document.getElementById('phone').value;
+    const phoneErr = document.getElementById('phone-error'); 
+
+    if (phone.length !== 10) {
+        phoneErr.innerHTML = 'Invalid phone number'; 
+        return false;
+    }
+
+    if (!phone.match(/^\d{10}$/)) {
+        phoneErr.innerHTML = 'Invalid Entry'; 
+        return false;
+    }
+
+    phoneErr.innerHTML = '<i style="color: green;" class="fa-solid fa-circle-check"></i>';
+    return true;
+}
+
+
+    </script>
+
+       
+
+
+</body>
+      

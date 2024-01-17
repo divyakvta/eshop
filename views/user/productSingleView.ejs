@@ -1,0 +1,227 @@
+<%- include('../partials/user/userHeader') %>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background-color: #000
+        }
+
+        .card {
+            border: none
+        }
+
+        .product {
+            background-color: #eee
+        }
+
+        .brand {
+            font-size: 13px
+        }
+
+        .act-price {
+            color: red;
+            font-weight: 700
+        }
+
+        .dis-price {
+            text-decoration: line-through
+        }
+
+        .about {
+            font-size: 14px
+        }
+
+        .color {
+            margin-bottom: 10px
+        }
+
+        label.radio {
+            cursor: pointer
+        }
+
+        label.radio input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            visibility: hidden;
+            pointer-events: none
+        }
+
+        label.radio span {
+            padding: 2px 9px;
+            border: 2px solid #ff0000;
+            display: inline-block;
+            color: #ff0000;
+            border-radius: 3px;
+            text-transform: uppercase
+        }
+
+        label.radio input:checked+span {
+            border-color: #ff0000;
+            background-color: #ff0000;
+            color: #fff
+        }
+
+        .btn-danger {
+            background-color: #ff0000 !important;
+            border-color: #ff0000 !important
+        }
+
+        .btn-danger:hover {
+            background-color: #da0606 !important;
+            border-color: #da0606 !important
+        }
+
+        .btn-danger:focus {
+            box-shadow: none
+        }
+
+        .cart i {
+            margin-right: 10px
+        }
+
+        .thumbnail-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px; /* Adjust the margin as needed */
+}
+
+.thumbnail {
+    margin-right: 10px; 
+    margin-bottom: 20px;
+    margin-right: 0;
+}
+
+.magnify-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 50px 50px;
+    margin-top: 60px;
+    margin-bottom: 5px;
+}
+
+#zoom .magnify-image {
+    border-radius: 10px; 
+}
+
+    </style>
+    <title><%= item.title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
+</head>
+
+<body>
+    <div class="container mt-5 mb-5">
+        <h2 class="text-center"><%= item.title %> Details</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="images">
+                                <% if (item && item.images) { %>
+                                    <div class="text-center" id="zoom-container" style="width: 250px; margin-left: 20px;">
+                                        <div id="zoom" style="width: 100%;">
+                                            <img id="main-image" class="magnify-image"
+                                                src="/uploads/<%= item.images[0].url %>" />
+                                        </div>
+                                        <div class="thumbnail-container">
+                                            <% item.images.forEach(img => { %>
+                                                <div class="thumbnail d-inline-block align-items-center zoom">
+                                                    <img onclick="change_image(this)"
+                                                        src="/uploads/<%= img.url%>" width="70"
+                                                        class="magnify-image">
+                                                </div>
+                                            <% }); %>
+                                        </div>
+                                    </div>
+                                <% } else { %>
+                                    <p>No images available</p>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="item">
+                                <div class="mt-4 mb-3">
+                                    <h5 class="text-uppercase"><%= item.title %></h5>
+                                    <% if (item.realPrice > 0) { %>
+                                        <div class="price d-flex flex-row align-items-center">
+                                            <span class="act-price"
+                                                style="text-decoration: line-through;">RS. <%= item.realPrice %></span>
+                                        </div>
+                                        <p>You saved: RS. <%= item.offerGot %></p>
+                                        <p>Offer price: RS. <%= item.price %></p>
+                                    <% } else { %>
+                                        <div class="price d-flex flex-row align-items-center">
+                                            <span class="act-price">RS. <%= item.price %></span>
+                                        </div>
+                                    <% } %>
+                                </div>
+                                <p class="about"><%= item.desc %></p>
+                                <div class="sizes mt-5">
+                                    <h6 class="text-uppercase"><%= item.size %></h6>
+                                </div>
+                                <div class="cart mt-4 align-items-center">
+                                    <a href="/users/add-to-cart/<%= item._id %>">
+                                        <button data-product-id="<%= item._id %>"
+                                            data-product-name="<%= item.title %>" onclick="addToCart(this)"
+                                            class="btn btn-danger text-uppercase mr-2 px-4">Add to cart</button> </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function addToCart(button) {
+        Swal.fire({
+            title: 'Product is added to your cart!',
+            text: '',
+            icon: 'success',
+            confirmButtonText: 'ok',
+            timer:3000
+        });
+   
+    return true;
+}
+</script>
+
+
+
+
+    <script>
+        function change_image(image) {
+            var container = document.getElementById("main-image");
+            container.src = image.src;
+        }
+    </script>
+    <script>
+        var options = {
+            width: 200,
+            height: 200,
+            scale: 0.8,
+            zoomStyle: {
+                opacity: '0.1',
+            borderRadius: 50,
+            },
+            zoomWidth: 500,
+            offset: { vertical: 20, horizontal: 25 },
+        };
+        new ImageZoom(document.getElementById("zoom"), options);
+
+    </script>
+</body>
+
+</html>

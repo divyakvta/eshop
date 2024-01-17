@@ -1,0 +1,133 @@
+<%- include('../partials/user/userHeader') %>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #e2e8f0;
+        }
+
+        .main-body {
+            padding: 15px;
+        }
+
+        .card {
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+        }
+
+        .breadcrumb {
+            background-color: #ffffff;
+            margin-bottom: 0;
+        }
+
+        .sidebar {
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 8px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .profile-image {
+            max-width: 150px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+
+
+            <!-- Main Content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-9 px-4">
+                <div class="main-body">
+
+                    <form action="/users/edit-profile/<%= user._id %>" method="post"  enctype="multipart/form-data">
+                        <div class="col-lg-8">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="profilePicture">
+                                            <input type="file" id="profilePicture" name="profilePicture" accept="image/*" style="display: none;" onchange="previewImage(this)">
+                                            <img id="preview" src="/profilePictures/<%= user.image %>" style="border-radius: 50%;" alt="Profile Picture" width="100">
+                                            <span id="editIcon" class="fas fa-edit"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="fullName">Full Name</label>
+                                        <input type="text" class="form-control" id="fullName" name="name" value="<%= user.username %>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" value="<%= user.phone %>" >
+                                    </div>
+                                    <button type="submit" class="btn btn-info">Save Changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+       
+       function showPreview() {
+        
+            // Trigger the click event 
+
+            document.getElementById('profilePicture').click();
+        }
+    
+        function previewImage(input) {
+            var preview = document.getElementById('preview');
+            var file = input.files[0];
+    
+            if (file) {
+                var reader = new FileReader();
+    
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                };
+    
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
