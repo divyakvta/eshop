@@ -5,54 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Ladies & Kids Boutique</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link  style="color: #000;"rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         body {
             background-color: #f8f9fa;
+            color: #000000; /* Set the default text color */
         }
 
         nav {
             width: 100%;
             position: fixed;
             top: 0;
-            background-color: #484444;
-            color: #131212;
+            background-color: #fff; /* White background */
+            color: #000000; /* Darker text color for contrast */
             padding: 10px;
             align-items: center;
-            
-           
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
         }
 
         nav h2 {
             margin: 0;
-            color: #fff;
+            color: #484444; /* Slightly darker color for the heading */
         }
 
         nav a {
-            color: #fff;
+            color: #484444;
             text-decoration: none;
-            margin: 0 10px; /* Adjust side margins */
+            margin: 0 10px;
+            transition: color 0.3s; 
+        }
+
+        nav a:hover {
+            background: #ddd;
+            color: #000; /* Darker color on hover for better visibility */
         }
 
         .navbar-toggler-icon {
-            color: #fff;
-        }
-
-        .navbar a:hover {
-            background: #ddd;
-            color: black;
+            color: #484444;
         }
 
         section {
             padding: 20px;
-            
         }
 
         .product {
             margin-bottom: 20px;
-            background-color: #fff;
-            /* White background for each product */
+            background-color: #2d0d0d;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -70,33 +69,36 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <h2>Angel Boutique</h2>
-            <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarResponsive"
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
-            <div class="collapse navbar-collapse" id="navbarResponsive">
+
+            <div class="collapse navbar-collapse" id="navbarResponsive" style="color: black;">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/admin/adminhome">Products</a>
+                        <a class="nav-link" style="color: #000;" href="/admin/dashboard">Home</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" style="color: #000;" href="/admin/adminhome">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/category">Categories</a>
+                        <a class="nav-link" style="color: #000;" href="/admin/category">Categories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/user-management">Users</a>
+                        <a class="nav-link" style="color: #000;" href="/admin/user-management">Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/order-list">Orders</a>
+                        <a class="nav-link" style="color: #000;" href="/admin/order-list">Orders</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/coupon">Coupons</a>
+                        <a class="nav-link" style="color: #000;" href="/admin/coupon">Coupons</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/sales-report">Sales Report</a>
+                        <a class="nav-link" style="color: #000;" href="/admin/sales-report">Sales Report</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/adminlogout">Logout</a>
+                        <a class="nav-link" style="color: #000;" href="/admin/adminlogout">Logout</a>
                     </li>
                 </ul>
             </div>

@@ -20,7 +20,7 @@ module.exports.adminLoginVerify = async (req,res) =>{
       }else{
         req.session.Admin = userData;
         req.session.login = true;
-        res.redirect('/admin/adminhome')
+        res.redirect('/admin/dashboard')
         console.log(req.session)
       }
     }else{
@@ -36,6 +36,14 @@ module.exports.adminLoginVerify = async (req,res) =>{
     }
   }
 
+module.exports.adminDashboard = (req,res) => {
+  try {
+    res.render('admin/dashboard');
+} catch (error) {
+    console.log(error.message)
+}
+}
+  
 // Listing All products in admin home page
 
   module.exports.adminHome = async (req, res) => {
@@ -141,6 +149,7 @@ module.exports.adminLogout = (req, res) => {
   }
 };
 
+//Admin dashboard function
 
 
 

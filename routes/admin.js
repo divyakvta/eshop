@@ -3,7 +3,7 @@ const express = require('express');
 const { adminSession, upload } = require('../middleware/middleware');
 const { categoryPage, addCategory, deactivateCategory, activateCategory, editCategoryPage, editCategory, addProductPage, productListPage, 
         addProduct, editProductPage, updateProduct, deleteProduct, addCategoryOfferPage, addCategoryOffer, deleteCategoryOffer, ProductOfferPage, addProductOffer, productPaginate, adminProductPaginate,  } = require('../controllers/productController');
-const { adminHome, adminLoginVerify, userManegement, userBlock, userUnBlock, adminLogout, adminLoginPage } = require('../controllers/adminController');
+const { adminHome, adminLoginVerify, userManegement, userBlock, userUnBlock, adminLogout, adminLoginPage, adminDashboard } = require('../controllers/adminController');
 const { orderList, orderDdetail, UpdateOrderStatus, allowReturn } = require('../controllers/orderController');
 const { couponMg, generateCoupon, addCouponPage, addCoupon, DeleteCoupon } = require('../controllers/couponController');
 const { salesReportPage, salesReport } = require('../controllers/salesController');
@@ -13,11 +13,13 @@ const { salesReportPage, salesReport } = require('../controllers/salesController
 
 const router = express.Router();
 
-router.get('/',adminSession,adminLoginPage)
+router.get('/',adminSession,adminLoginPage);
 
-router.post('/login-verify',adminSession, adminLoginVerify)
+router.post('/login-verify',adminSession, adminLoginVerify);
 
 router.get('/adminlogout',adminLogout);
+
+router.get('/dashboard', adminDashboard)
 
 router.get('/adminhome', adminHome);
 
@@ -71,9 +73,9 @@ router.post('/updateOrderStatus', UpdateOrderStatus);
 
 router.get("/aprove-return/:id", allowReturn)
 
-router.get('/category-offer-page', addCategoryOfferPage);
+router.get('/category-offer-page/:id', addCategoryOfferPage);
 
-router.post('/add-category-offer', addCategoryOffer);
+router.post('/add-category-offer/:id', addCategoryOffer);
 
 router.get('/product-offer-page/:id', ProductOfferPage);
 
@@ -83,7 +85,7 @@ router.get('/sales-report', salesReportPage);
 
 router.post('/report-download', salesReport);
 
-router.get('/delete-offer/:id', deleteCategoryOffer)
+
 
 
 

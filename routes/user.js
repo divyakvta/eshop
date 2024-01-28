@@ -1,6 +1,7 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
-const { userLoginPage, userSignupPage, userHomePage, userLogout,userRegister, userLoginVarify, otpVerify, userProfile, editProfilePage, editProfile, resendOtp, forgotPasswordPage, sendPassResetMail, AddNewPassword } = require('../controllers/userController');
+const { userLoginPage, userSignupPage, userHomePage, userLogout,userRegister, userLoginVarify, otpVerify, userProfile, editProfilePage, editProfile, resendOtp, forgotPasswordPage, sendPassResetMail, AddNewPassword, sendRefferalLink } = require('../controllers/userController');
 const { userSession, blockChecker, upload, upload1 } = require('../middleware/middleware');
 const { addAddress, addressList, addAddressPage, deleteAddress, editAddress, editAddressPage, addAddressCheckout } = require('../controllers/addressController');
 const { listProductsPage, allProductList, productFilter, productSearch, productPaginate } = require('../controllers/productController');
@@ -10,6 +11,7 @@ const { useCoupon } = require('../controllers/couponController');
 const verifyToken = require('../middleware/authMiddleware');
 
 const router = express.Router();
+router.use(bodyParser.json());
 
 
 
@@ -111,6 +113,8 @@ router.get('/forgot-password', forgotPasswordPage);
 router.post('/reset-Password', sendPassResetMail);
 
 router.post('/add-newPassword/:id', AddNewPassword);
+
+router.post("/send-Refferal", sendRefferalLink)
 
 
 

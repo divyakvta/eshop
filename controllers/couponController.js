@@ -44,7 +44,7 @@ const checkAndUpdateExpiredCoupons = async () => {
 
 //-------------------------- USER SIDE ---------------------------------------|>
 
-
+//validating coupon 
 module.exports.useCoupon = async (req, res) => {
     try {
         const newCode = await Coupon.findOne({ couponCode: req.body.couponCode });
@@ -77,33 +77,33 @@ module.exports.useCoupon = async (req, res) => {
 };
 
 
-module.exports.coupons = async (req, res) => {
-    try {
+// module.exports.coupons = async (req, res) => {
+//     try {
     
-        const user = req.session.user
-        const coupons = await Coupon.find({});
-        checkAndUpdateExpiredCoupons();
+//         const user = req.session.user
+//         const coupons = await Coupon.find({});
+//         checkAndUpdateExpiredCoupons();
 
 
-        if(coupons.startDate < coupons.expirationDate){
-         const expired = await Coupon.updateMany({expired: true});
-         if(expired){
-            console.log("coupon expired !!..");
-         }
-        }
+//         if(coupons.startDate < coupons.expirationDate){
+//          const expired = await Coupon.updateMany({expired: true});
+//          if(expired){
+//             console.log("coupon expired !!..");
+//          }
+//         }
 
 
-        const category = await Category.findOne({categoryName: 'CABINET'});
+//         const category = await Category.findOne({categoryName: 'CABINET'});
 
         
 
-        const headCategory = await getCategory();
-        res.render('user/coupons', {coupons: coupons, headCategory, user: user})
-    } catch (error) {
-        console.log('Try catch error in coupons 🤷‍♂️📀🤷‍♀️');
-        console.log(error.message);
-    }
-};
+//         const headCategory = await getCategory();
+//         res.render('user/coupons', {coupons: coupons, headCategory, user: user})
+//     } catch (error) {
+//         console.log('Try catch error in coupons 🤷‍♂️📀🤷‍♀️');
+//         console.log(error.message);
+//     }
+// };
 
 
 
@@ -112,6 +112,7 @@ module.exports.coupons = async (req, res) => {
 
 
 //--------------------------ADMIN SIDE ---------------------------------------|>
+//generating coupon code
 
 module.exports.generateCoupon = async(req,res)=>{
     try {
@@ -124,6 +125,8 @@ module.exports.generateCoupon = async(req,res)=>{
     }
 };
 
+//Listing coupons
+
 module.exports.couponMg = async(req,res)=>{
     try {
     const coupons = await Coupon.find();
@@ -134,6 +137,8 @@ module.exports.couponMg = async(req,res)=>{
     }
 }
 
+// rendering add coupon  page 
+
 module.exports.addCouponPage = async(req,res)=>{
     try {
         res.render('admin/add-coupon')
@@ -141,6 +146,8 @@ module.exports.addCouponPage = async(req,res)=>{
          console.log(error.message)
     }
 }
+
+//create new coupon
 
 module.exports.addCoupon = async(req,res)=>{
     try {
@@ -163,6 +170,7 @@ module.exports.addCoupon = async(req,res)=>{
     }
 }
 
+//deleting coupon
 
 module.exports.DeleteCoupon = async (req, res) => {
     try {

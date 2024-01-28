@@ -61,13 +61,9 @@ discount_percentage: {
     type: Number, 
     default: 0 
 },
-start_date: {
-     type: Date 
-    },
-end_date: { 
-    type:
-     Date
-     },
+     mrp:{
+        type: Number
+     }
 
 });
 

@@ -13,13 +13,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
       
+      .main-body {
+            padding: 15px;
+        }
+
         .card {
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+            box-shadow: 0 1px 3px 0 rgba(155, 150, 150, 0.1), 0 1px 2px 0 rgba(209, 203, 203, 0.06);
+        }
+
+        .breadcrumb {
+            background-color: #ffffff;
+            margin-bottom: 0;
         }
 
         .sidebar {
             background-color: #e0e7ee73;
-            padding-top: 20px;
+            padding-top: 10px;
+            width: 15%;
         }
 
         .sidebar a {
@@ -45,15 +55,15 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <nav class="col-md-3 d-none d-md-block sidebar" style="padding: 30px;">
-                <div class="text-center" style="text-align: center; margin: 20px;">
+            <nav class="col-md-3 d-none d-md-block sidebar" style="padding-left: 30px;">
+                <div class="text-center" style="text-align: center; margin: 10px;">
                     <label for="profilePicture">
-                        <img id="preview" src="/profilePictures/<%= user.image %>" style="border-radius: 50%;" alt="Profile Picture" width="100">
+                        <img id="preview" src="/profilePictures/<%= user.image %>" style="border-radius: 50%;" alt="Profile Picture" width="70">
                     </label>
                     <h4 class="text-black mt-3"><%= user.username %></h4>
                 </div>
                 <a href="/users/edit-product-page">
-                    <button>Edit-profile</button>
+                    <button class="btn-primary">Edit-profile</button>
                 </a>
                 <ul class="nav flex-column mt-4">
                     <li class="nav-item">
@@ -109,7 +119,7 @@
                                             <p style="font-size: 14px;"><%= data.state %>-<%= data.zip %></p>
                                         </div>
                                         <div>
-                                            <a href="/users/edit-address-page/<%= data._id %>" class="btn btn-success">Edit</a>
+                                            <a href="/users/edit-address-page/<%= data._id %>" class="btn btn-succes">Edit</a>
                                             <a href="/users/delete-address/<%= data._id %>" class="btn btn-danger">Delete</a>
                                         </div>
                                     </div>
@@ -123,7 +133,7 @@
             </main>
         </div>
     </div>
-
+    
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -131,3 +141,4 @@
 </body>
 
 </html>
+<%- include('../partials/user/userFooter') %>

@@ -1,5 +1,8 @@
 <%- include('../partials/user/userHeader') %>
 
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +12,7 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        .main-body {
-            padding: 15px;
-        }
+       
 
         .card {
             box-shadow: 0 1px 3px 0 rgba(155, 150, 150, 0.1), 0 1px 2px 0 rgba(209, 203, 203, 0.06);
@@ -24,8 +25,8 @@
 
         .sidebar {
             background-color: #e0e7ee73;
-            padding-top: 20px;
-            width: 20%;
+            padding-top: 10px;
+            width: 15%;
         }
 
         .sidebar a {
@@ -49,6 +50,39 @@
             margin-top: 20px;
             width: 100%;
         }
+
+        /* Popup Styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f1f1f1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .popup-content {
+            text-align: center;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Adjusted Styles */
+        .referral-code {
+            color: rgb(0, 145, 255);
+            font-weight: 400;
+            font-size: 18px;
+        }
     </style>
 </head>
 
@@ -57,9 +91,9 @@
         <div class="row">
             <!-- Sidebar -->
             <nav class="col-md-3 d-none d-md-block sidebar" style="padding: 30px;">
-                <div class="text-center" style="text-align: center; margin: 20px;">
+                <div class="text-center" style="text-align: center; margin:20px;">
                     <label for="profilePicture">
-                        <img id="preview" src="/profilePictures/<%= user.image %>" style="border-radius: 50%;" alt="Profile Picture" width="100">
+                        <img id="preview" src="/profilePictures/<%= user.image %>" style="border-radius: 50%;" alt="Profile Picture" width="70">
                     </label>
                     <h4 class="text-black mt-3"><%= user.username %></h4>
                 </div>
@@ -91,57 +125,64 @@
             </nav>
 
             <!-- Main Content -->
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-9 px-4">
+            <main role="main" class="col-md-8 ml-sm-auto col-lg-8 px-4">
                 <div class="main-body">
                     <div class="col-lg-8">
                         <div class="card mb-4">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-sm-3">
-                                        <p class="mb-0">Full Name</p>
+                                    <div class="col-sm-3" style="margin-bottom: 0;">
+                                        <p style="margin-bottom: 0;">Full Name</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <p class="text-muted mb-0"><%= user.username %></p>
+                                        <p class="text-muted mb-0" style="margin-bottom: 0;"><%= user.username %></p>
                                     </div>
                                 </div>
-                                <hr>
+                                <hr style="margin-top: 0;">
                                 <div class="row">
-                                    <div class="col-sm-3">
-                                        <p class="mb-0">Email</p>
+                                    <div class="col-sm-3" style="margin-bottom: 0;">
+                                        <p style="margin-bottom: 0;">Email</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <p class="text-muted mb-0"><%= user.email %></p>
+                                        <p class="text-muted mb-0" style="margin-bottom: 0;"><%= user.email %></p>
                                     </div>
                                 </div>
-                                <hr>
+                                <hr style="margin-top: 0;">
                                 <div class="row">
-                                    <div class="col-sm-3">
-                                        <p class="mb-0">Phone</p>
+                                    <div class="col-sm-3" style="margin-bottom: 0;">
+                                        <p style="margin-bottom: 0;">Phone</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <p class="text-muted mb-0"><%= user.phone %></p>
+                                        <p class="text-muted mb-0" style="margin-bottom: 0;"><%= user.phone %></p>
                                     </div>
                                 </div>
-                                <hr>
+                                <hr style="margin-top: 0;">
                                 <!-- Referral Code Section -->
                                 <div class="row">
-                                    <div class="col-sm-3">
-                                        <p class="mb-0">Referral Code</p>
+                                    <div class="col-sm-3" style="margin-bottom: 0;">
+                                        <p style="margin-bottom: 0;">Referral Code</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <p class="text mb-0" style="color: rgb(0, 145, 255); font-weight: 400; font-size: 18px;"><%= user.refferalLink %></p>
+                                    <form action="/users/send-Refferal" method="post">
+                                       
+                                            <p class="text mb-0 referral-code" style="margin-bottom: 0;"><%= user.refferalLink %></p>
+                                            <input type="hidden" name="referalLink" value="<%= user.refferalLink %>" style="width: 100%; border: none;"><br>
+                                            <input type="text" name="email" placeholder="Enter Email" style="width: 100%;"></form><br>
+                                            <button class="btn-primary" style="margin-bottom: 0;">Invite a friend</button>
+                                        </form>
                                     </div>
-                                   
                                 </div>
-                                <hr>
+                                <hr style="margin-top: 0;">
                             </div>
                         </div>
                     </div>
                 </div>
             </main>
+            
         </div>
     </div>
 
+    <%- include('../partials/user/userFooter') %>
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -155,6 +196,7 @@
             console.log("Referral Code submitted: " + referralCode);
         }
     </script>
+
 </body>
 
 </html>

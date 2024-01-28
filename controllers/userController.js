@@ -25,6 +25,46 @@ const getCategory = async function () {
   }
 };
 
+
+// User signup page Rendering 
+
+module.exports.userSignupPage =async (req,res) => {
+  try{
+
+    const code = req.query.reflink;
+    
+    const deletedUsers = await User.deleteMany({ verify: false });
+
+    const reflinkUser = await User.findOne({refferalCode: code});
+
+
+
+
+    if (deletedUsers.deletedCount > 0) {
+      console.log(`${deletedUsers.deletedCount} unverified users deleted successfully.`);
+    } else {
+      console.log("No unverified users found for deletion.");
+    }
+
+    if(code){
+
+      console.log(req.query.reflink + '😘');
+    console.log(reflinkUser);
+
+
+      res.render('user/usersignup', {refUser: reflinkUser._id});
+    }else{
+      res.render('user/usersignup', {refUser: ''});
+
+    }
+
+
+  }catch(error){
+      console.log(error.message)
+  }
+}
+
+
 //Gerarating otp and creating User with details
  
 module.exports.userRegister = async (req, res) => {
@@ -174,55 +214,98 @@ module.exports.userRegister = async (req, res) => {
 
 module.exports.otpVerify = async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.body.id, otp: req.body.otp });
-
+    const otp = req.body.otp;
+    const user = await User.findOne({ _id: req.body.id });
 
     const refUser = req.body.refUser;
-   
+
     console.log(refUser);
 
-    if (user) {
+    if (user && user.otp !== otp) {
+      res.send('Incorrect otp');
+    } else {
       const generatedRefLink = `${req.protocol}://${req.headers.host}/users?reflink=${user.refferalCode}`;
 
       user.refferalLink = generatedRefLink;
       user.verify = true;
       await user.save();
 
-     if(refUser){
-      const refUserWallet = await Wallet.findOne({ userId: refUser });
-      const refUserTransaction = await Transaction.findOne({ userId: refUser });
-  
-      const referralSchemaExcist = await Referral.findOne({ referringUserId: refUser });
+      if (refUser) {
+        const refUserWallet = await Wallet.findOne({ userId: refUser });
+        const refUserTransaction = await Transaction.findOne({ userId: refUser });
 
-      if (referralSchemaExcist) {
+        const referralSchemaExist = await Referral.findOne({ referringUserId: refUser });
 
-        
-      const  wallet = new Wallet({
-        userId: user._id,
-        walletBalance: 50,
-    });
+        if (referralSchemaExist) {
+          const wallet = new Wallet({
+            userId: user._id,
+            walletBalance: 50,
+          });
 
+          const transaction = new Transaction({
+            userId: user._id,
+            transaction: [{ mode: 'Credit   referral offer', amount: 50 }],
+          });
 
-   const  transaction = new Transaction({
-      userId: user._id,
-      transaction: [{ mode: 'Credit   refferal offer', amount: 50 }],
-  });
+          await wallet.save();
+          await transaction.save();
 
-  
-  await wallet.save();
-  await transaction.save();
+          if (referralSchemaExist.usedUsers < 5) {
+            referralSchemaExist.referredUsersId.push({ id: user._id });
+            referralSchemaExist.usedUsers += 1;
 
-        if (referralSchemaExcist.usedUsers <= 5) {
-          referralSchemaExcist.referredUsersId.push({ id: refUser });
-          referralSchemaExcist.usedUsers += 1;
+            await referralSchemaExist.save();
 
-          await referralSchemaExcist.save();
+            if (refUserWallet) {
+              refUserWallet.walletBalance += 50;
+              await refUserWallet.save();
+
+              refUserTransaction.transaction.push({ mode: 'Credit   referral offer', amount: 50 });
+              await refUserTransaction.save();
+            } else {
+              const wallet = new Wallet({
+                userId: refUser,
+                walletBalance: 50,
+              });
+
+              const transaction = new Transaction({
+                userId: refUser,
+                transaction: [{ mode: 'Credit   referral offer', amount: 50 }],
+              });
+
+              await wallet.save();
+              await transaction.save();
+            }
+          } else {
+            referralSchemaExist.status = false;
+          }
+        } else {
+          const wallet = new Wallet({
+            userId: user._id,
+            walletBalance: 50,
+          });
+
+          const transaction = new Transaction({
+            userId: user._id,
+            transaction: [{ mode: 'Credit   referral offer', amount: 50 }],
+          });
+
+          await wallet.save();
+          await transaction.save();
+
+          const referralSchema = new Referral({
+            referringUserId: refUser,
+            referredUsersId: [{ id: user._id }],
+            usedUsers: 1,
+          });
+
+          await referralSchema.save();
 
           if (refUserWallet) {
             refUserWallet.walletBalance += 50;
             await refUserWallet.save();
 
-            refUserTransaction.transaction.push({ mode: 'Credit   refferal offer', amount: 50 });
+            refUserTransaction.transaction.push({ mode: 'Credit   referral offer', amount: 50 });
             await refUserTransaction.save();
           } else {
             const wallet = new Wallet({
@@ -232,75 +315,15 @@ module.exports.otpVerify = async (req, res) => {
 
             const transaction = new Transaction({
               userId: refUser,
-              transaction: [{ mode: 'Credit   refferal offer', amount: 50 }],
+              transaction: [{ mode: 'Credit   referral offer', amount: 50 }],
             });
 
             await wallet.save();
             await transaction.save();
           }
-
-
-        } else {
-          referralSchemaExcist.status = false;
-        }
-
-
-      } else {
-
-        
-      const  wallet = new Wallet({
-        userId: user._id,
-        walletBalance: 50,
-    });
-
-
-   const  transaction = new Transaction({
-      userId: user._id,
-      transaction: [{ mode: 'Credit   refferal offer', amount: 50 }],
-  });
-
-  
-  await wallet.save();
-  await transaction.save();
-
-        const referralSchema = new Referral({
-          referringUserId: refUser,
-          referredUsersId: [
-            {
-              id: user._id,
-            },
-          ],
-          usedUsers: 1,
-        });
-
-        await referralSchema.save();
-
-        if (refUserWallet) {
-          refUserWallet.walletBalance += 50;
-          await refUserWallet.save();
-
-          refUserTransaction.transaction.push({ mode: 'Credit   refferal offer', amount: 50 });
-          await refUserTransaction.save();
-        } else {
-          const wallet = new Wallet({
-            userId: refUser,
-            walletBalance: 50,
-          });
-
-          const transaction = new Transaction({
-            userId: refUser,
-            transaction: [{ mode: 'Credit   refferal offer', amount: 50 }],
-          });
-
-          await wallet.save();
-          await transaction.save();
         }
       }
-
-     }
       res.render('user/userlogin');
-    } else {
-      res.redirect('/users/register');
     }
   } catch (error) {
     console.error(error.message);
@@ -448,43 +471,7 @@ module.exports.userLoginPage = (req,res) => {
     }
 }
 
-// User signup page Rendering 
 
-module.exports.userSignupPage =async (req,res) => {
-    try{
-
-      const code = req.query.reflink;
-      
-      const deletedUsers = await User.deleteMany({ verify: false });
-
-      const reflinkUser = await User.findOne({refferalCode: code});
-
-
-
-
-      if (deletedUsers.deletedCount > 0) {
-        console.log(`${deletedUsers.deletedCount} unverified users deleted successfully.`);
-      } else {
-        console.log("No unverified users found for deletion.");
-      }
-  
-      if(code){
-
-        console.log(req.query.reflink + '😘');
-      console.log(reflinkUser);
-
-
-        res.render('user/usersignup', {refUser: reflinkUser._id});
-      }else{
-        res.render('user/usersignup', {refUser: ''});
-
-      }
-
-
-    }catch(error){
-        console.log(error.message)
-    }
-}
 
 //User home page Rendering 
 module.exports.userHomePage = async (req, res) => {
@@ -749,5 +736,77 @@ module.exports.AddNewPassword = async (req, res) => {
 
 
 
+module.exports.sendRefferalLink = async(req,res)=>{
+  try {
+
+    const refferal = req.body.referalLink;
+    console.log(refferal + "hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+    const email = req.body.email
+    const sendVerifyMail = async (email, refferal) => {
+      try {
+        const https = require('https');
+  
+        const agent = new https.Agent({
+          rejectUnauthorized: false, // Set this to true in production
+        });
+  
+        const transporter = nodemailer.createTransport({
+          host: process.env.MAIL_HOST,
+          port: 587,
+          secure: false,
+          requireTLS: true,
+          auth: {
+            user: process.env.MAIL_USER,
+            pass: process.env.MAIL_PASS,
+          },
+          tls: {
+            rejectUnauthorized: false, // Set this to true in production
+          },
+          agent, // Pass the agent to nodemailer
+        });
+  
+        const mailOptions = {
+          from: 'divya@gmail.com',
+          to: email,
+          subject: 'Verification Mail',
+          html: `<p>Hi, use this link to signup: ${refferal}</p>`,
+        };
+        
+        // Promisify sendMail
+        const sendMailPromise = new Promise((resolve, reject) => {
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.error(error);
+              reject(error);
+            } else {
+              console.log('Email has been sent', info.response);
+              resolve(info);
+            }
+          });
+        });
+  
+        // Wait for the email to be sent
+        await sendMailPromise;
+  
+        return true; // Indicate success
+      } catch (error) {
+        console.error(error.message);
+        return false; // Indicate failure
+      }
+    };
+
+    const sendMailResult = await sendVerifyMail(email, refferal);
+
+    if(sendMailResult){
+      res.redirect("/users/profile");
+    }else{
+      console.log('sending email failed')
+    }
+
+  
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
     

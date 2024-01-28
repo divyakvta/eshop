@@ -88,12 +88,12 @@ if(category){
 module.exports.addCategoryOfferPage = async (req, res) => {
     try {
         const category = await getCategory();
-        const categoryOffers = await CategoryOffer.find().populate('category');
-
+        const id = req.params.id;
+        const categoryName = await Category.findOne({_id: id})
         // console.log(categoryOffers, "😊");
 
         
-        res.render("admin/category-offer", { category, categoryOffer: categoryOffers });
+        res.render("admin/category-offer", { category, categoryName: categoryName });
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");
@@ -101,31 +101,47 @@ module.exports.addCategoryOfferPage = async (req, res) => {
 };
 
 module.exports.addCategoryOffer = async (req, res) => {
-    try {
-        const newOffer = new CategoryOffer({
-            offerPercentage: req.body.offerPercentage,
-            category: req.body.CategoryOffer
-        });
+  try {
+      const id = req.params.id;
+      console.log(id);
 
-        const savedOffer = await newOffer.save();
+      let perc = parseInt(req.body.offerPercentage);
 
-        const products = await Product.find({ category: savedOffer.category });
+      const updatedCategory = await Category.findByIdAndUpdate(id, {
+          $set: {
+              categoryOffer: perc
+          }
+      });
 
-        products.forEach((item) => {
-            const offerP = item.price * savedOffer.offerPercentage / 100;
-            item.offerGot = offerP
-            item.realPrice = item.price;
-            item.price = item.price - offerP;
-        });
+      const products = await Product.find({ category: id }).populate('category');
+      console.log(products);
 
-        await Promise.all(products.map((item) => item.save()));
+      if (perc === 0) {
+          for (let i = 0; i < products.length; i++) {
+              products[i].price = products[i].mrp;
+              products[i].offerGot = 0;
+              products[i].realPrice = 0;
+              products[i].discount_percentage = 0;
+              await products[i].save();
+          }
+      } else {
+          for (let i = 0; i < products.length; i++) {
+              products[i].offerGot = products[i].mrp / 100 * perc;
+              products[i].price = products[i].mrp - products[i].offerGot;
+              products[i].realPrice = products[i].mrp;
+              products[i].discount_percentage = perc;
+              await products[i].save();
+          }
+      }
 
-        res.redirect('/admin/category-offer-page');
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Internal Server Error");
-    }
+      res.redirect('/admin/category');
+  } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Internal Server Error");
+  }
 };
+
+
 
 module.exports.deleteCategoryOffer = async (req, res) => {
   try {
@@ -236,7 +252,8 @@ module.exports.addProduct = async (req, res) => {
             size: req.body.size,
             images: images,
             stock: req.body.stock,
-            price:req.body.price
+            price:req.body.price,
+            mrp: req.body.price
         });
   
       const savedProduct = await newproduct.save();

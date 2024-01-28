@@ -1,0 +1,55 @@
+<!-- public/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invite Friends</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<button id="openPopupBtn">Invite a Friend</button>
+
+<div class="popup" id="invitePopup">
+  <div class="popup-content">
+    <span class="close" id="closePopupBtn">&times;</span>
+    <h2>Invite a Friend</h2>
+    <label for="friendEmail">Friend's Email:</label>
+    <input type="email" id="friendEmail" placeholder="Enter friend's email">
+    <button onclick="sendInvitation()">Send Invitation</button>
+    <p>Your Referral Link:</p>
+    <p id="referralLink"></p>
+  </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+  const openPopupBtn = document.getElementById('openPopupBtn');
+  const closePopupBtn = document.getElementById('closePopupBtn');
+  const invitePopup = document.getElementById('invitePopup');
+  const friendEmailInput = document.getElementById('friendEmail');
+  const referralLinkParagraph = document.getElementById('referralLink');
+
+  openPopupBtn.addEventListener('click', function () {
+    invitePopup.style.display = 'block';
+    // Generate and display the referral link
+    const referralLink = generateReferralLink();
+    referralLinkParagraph.textContent = referralLink;
+  });
+
+  closePopupBtn.addEventListener('click', function () {
+    invitePopup.style.display = 'none';
+  });
+
+  // Close the popup if the user clicks outside of it
+  window.addEventListener('click', function (event) {
+    if (event.target === invitePopup) {
+      invitePopup.style.display = 'none';
+    }
+  });
+    })
+</script>
+</body>
+</html>
