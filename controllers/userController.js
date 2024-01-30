@@ -477,18 +477,18 @@ module.exports.userLoginPage = (req,res) => {
 module.exports.userHomePage = async (req, res) => {
     try {
         
-        const userData = await User.findById(req.session.user._id);
+        // const userData = await User.findById(req.session.user._id);
 
         const product = await Product.find({deleted: false})
 
-        if (!userData) {
+        // if (!userData) {
             
-            return res.status(404).send("User not found");
-        }
+        //     return res.status(404).send("User not found");
+        // }
 
         const category = await getCategory(); 
 
-        res.render('user/all-products', { user: userData, category,product });
+        res.render('user/all-products', {  category,product });
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");

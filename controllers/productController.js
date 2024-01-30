@@ -490,17 +490,17 @@ module.exports.addProductOffer = async (req, res) => {
  //List Products CategoryWise
 module.exports.listProductsPage = async (req, res) => {
     try {
-        const userId = req.session.user;
+        // const userId = req.session.user;
         const categoryId = req.query.id;
 
         console.log(categoryId);
 
-        const products = await Product.find({ category: categoryId,deleted:false }).populate('category');
+        const products = await Product.find({ category: categoryId, deleted:false }).populate('category');
         const category = await getCategory();
 
         console.log(products);
 
-        res.render('user/listProduct', { product: products, category, user: userId });
+        res.render('user/listProduct', { product: products, category });
     } catch (error) {
         console.error(error.message);
         res.status(500).send('Internal Server Error');

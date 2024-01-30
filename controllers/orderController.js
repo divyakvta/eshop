@@ -454,6 +454,7 @@ module.exports.allowReturn = async (req, res) => {
     }
 
     order.returned = true;
+    order.orderStatus = 'Order Returned'
     await order.save();
 
     console.log(order + "❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️");

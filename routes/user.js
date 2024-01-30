@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const { userLoginPage, userSignupPage, userHomePage, userLogout,userRegister, userLoginVarify, otpVerify, userProfile, editProfilePage, editProfile, resendOtp, forgotPasswordPage, sendPassResetMail, AddNewPassword, sendRefferalLink } = require('../controllers/userController');
-const { userSession, blockChecker, upload, upload1 } = require('../middleware/middleware');
+const { userSession, blockChecker, upload, upload1, userLoginCheck } = require('../middleware/middleware');
 const { addAddress, addressList, addAddressPage, deleteAddress, editAddress, editAddressPage, addAddressCheckout } = require('../controllers/addressController');
 const { listProductsPage, allProductList, productFilter, productSearch, productPaginate } = require('../controllers/productController');
 const { productAddToCart, singleProductView, cart, updateQuantity, checkout, removeCartProduct, addToCartFromHome } = require('../controllers/cartController');
@@ -15,7 +15,7 @@ router.use(bodyParser.json());
 
 
 
-router.get('/',userSession,userSignupPage)
+router.get('/signup',userSession,userSignupPage)
 
 
 
@@ -29,30 +29,31 @@ router.get('/resend-email-otp/:id', resendOtp)
 router.post('/verify',userSession, otpVerify)
 
 
-router.post('/loginVerify', userLoginVarify)
-
-
-router.use(verifyToken);
+router.post('/loginVerify', userLoginVarify,verifyToken,)
 
 
 
-router.get('/home', userHomePage)
 
-router.get('/list-product',listProductsPage)
+
+router.get('/', userHomePage)
+
+// router.use(verifyToken);
+
+router.get('/list-product',blockChecker,listProductsPage)
 
 router.get('/logout',userLogout)
 
-router.get('/category-list',blockChecker, listProductsPage)
+router.get('/category-list', listProductsPage)
 
 router.post('/product-filter',productFilter)
 
 router.post('/product-search', productSearch)
 
-router.get('/add-to-cart1/:productId',blockChecker,addToCartFromHome)
+router.get('/add-to-cart1/:productId',userLoginCheck, blockChecker,addToCartFromHome)
 
-router.get('/add-to-cart/:productId',blockChecker, productAddToCart)
+router.get('/add-to-cart/:productId',userLoginCheck, blockChecker, productAddToCart)
 
-router.get('/cart',blockChecker, cart);
+router.get('/cart',userLoginCheck, blockChecker, cart);
 
 router.post('/updateQuantity', updateQuantity);
 
@@ -60,9 +61,9 @@ router.get('/cart-remove/:id', removeCartProduct)
 
 // router.get('/all-products',allProductList)
 
-router.get('/product-single-view/:productId',blockChecker,singleProductView)
+router.get('/product-single-view/:productId',singleProductView)
 
-router.get('/profile',blockChecker, userProfile);
+router.get('/profile',userLoginCheck, blockChecker, userProfile);
 
 router.get("/edit-product-page",blockChecker, editProfilePage);
 

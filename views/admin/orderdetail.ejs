@@ -80,7 +80,7 @@
              <% if (order.returned) { %>
               <h3 style="color: red;">Order Returned</h3>
              <% }else{ %>
-              <h6> <%= order.orderStatus %></h6>
+              <h6 style="color: green;"> <%= order.orderStatus %></h6>
               <form action="/admin/updateOrderStatus" method="post">
                 <div class="form-group">
                   <label for="orderStatus">Select Order Status:</label>
@@ -99,7 +99,7 @@
                 <% if (order.returnRequest === true) { %><br>
                   <p style="color: red; font-size: 20px;"> User Requested for Return </p>
                   <a href="/admin/aprove-return/<%= order._id %>"><button class="btn btn-success">Approve  </button></a>
-                  <a href="/admin/decline-return/<%= order._id %>"><button class="btn btn-danger">Decline </button></a>
+                  <!-- <a href="/admin/decline-return/<%= order._id %>"><button class="btn btn-danger">Decline </button></a> -->
                   <% } %>
               </div>
               <% } %>

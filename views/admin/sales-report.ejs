@@ -22,19 +22,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   
     <style>
-            #toast-container .toast-error {
-  color: red;
-  background-color: rgb(120, 132, 194);
-  }
-    .red-error {
-  color: red;
-  font-weight: bold;
-  }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+    
   
         .title {
             text-align: center;
@@ -76,10 +64,10 @@
   </head>
   
   <body>
-    <div class="container">
+    <div class="container" >
         <h1 class="title">Sales Report</h1>
   
-        <form id="reportForm" class="form">
+        <form id="reportForm" class="form" style="width: 30%; margin-left: 35%;">
             <label for="startDate" class="form-label">Start Date:</label>
             <input type="date" id="startDate" name="startDate" class="form-input" required>
   
@@ -89,7 +77,7 @@
             <button type="submit" class="btn-generate">Generate Report</button>
         </form>
   
-        <div id="salesReport" class="report"></div>
+        <div  id="salesReport" class="report" style="border: none;"></div>
     </div>
   
   

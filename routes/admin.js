@@ -7,6 +7,7 @@ const { adminHome, adminLoginVerify, userManegement, userBlock, userUnBlock, adm
 const { orderList, orderDdetail, UpdateOrderStatus, allowReturn } = require('../controllers/orderController');
 const { couponMg, generateCoupon, addCouponPage, addCoupon, DeleteCoupon } = require('../controllers/couponController');
 const { salesReportPage, salesReport } = require('../controllers/salesController');
+const { dashboard } = require('../controllers/dashController');
 
 
 
@@ -19,7 +20,7 @@ router.post('/login-verify',adminSession, adminLoginVerify);
 
 router.get('/adminlogout',adminLogout);
 
-router.get('/dashboard', adminDashboard)
+router.get('/dashboard', dashboard)
 
 router.get('/adminhome', adminHome);
 

@@ -48,10 +48,10 @@ const orderSchema = new Schema({
         }
     ,
     totalPrice:{
-       type: String
+       type: Number
     },
     totalPaid: {
-       type: String
+       type: Number
     },
     
     paymentStatus: {

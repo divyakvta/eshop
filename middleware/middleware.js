@@ -77,3 +77,16 @@ module.exports.upload = multer({
         console.log(error.message)
     }
   }
+
+
+module.exports.userLoginCheck = async(req,res,next)=>{
+    try {
+        if(req.session.user){
+            next();
+        }else{
+            res.redirect("/users/signup");
+        }
+    } catch (error) {
+        console.log(error.message);
+    }
+}

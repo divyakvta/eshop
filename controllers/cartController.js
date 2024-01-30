@@ -154,11 +154,12 @@ module.exports.singleProductView = async (req,res) => {
 
     const productid = req.params.productId;
 
-    const user = req.session.user;
+    console.log(productid + "🙌");
+    // const user = req.session.user;
         const category = await getCategory();
     const product = await Product.findOne({_id: productid})
     if(Product){
-        res.render('user/productSingleView',{item: product, category, user: user})
+        res.render('user/productSingleView',{item: product, category})
     }else{
         console.log('Error while loading')
     }

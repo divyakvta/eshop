@@ -249,8 +249,8 @@
 
             </div>
 
-            <div class="card shopping-bill">
-                <div class="card-body">
+            <div class="card shopping-bill" style="max-width: 800px; margin: auto;">
+                <div class="card-body" style="padding: 20px;">
                     <h2 class="card-title h4">Shopping Bill</h2>
                     <table class="table">
                         <thead>
@@ -262,7 +262,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% let total = 0; 
+                            <% let total = 0;
                             products.items.forEach(item => { %>
                                 <tr>
                                     <td><%= item.product.title %></td>
@@ -271,28 +271,24 @@
                                     <td><%= item.quantity * item.product.price %></td>
                                 </tr>
                                 <% total += item.quantity * item.product.price; }) %>
-            
-                                <tr>
-                                    <td>Total Amount</td>
-                                    <td colspan="3" align="right" id="total-price"><%= total %>.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Coupon Discount</td>
-                                    <td colspan="3" align="right" id="price-save">0.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Offer Discount</td>
-                                    <td colspan="3" align="right" id="discount">0.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Payable Amount</td>
-                                    <td colspan="3" align="right" id="total-pay"><%= total %>.00</td>
-                                </tr>
+        
+                            <tr>
+                                <td>Total Amount</td>
+                                <td colspan="3" align="right" id="total-price" style="font-weight: bold;"><%= total %></td>
+                            </tr>
+                            <tr>
+                                <td>Coupon Discount</td>
+                                <td colspan="3" align="right" id="price-save" style="font-weight: bold;">0.00</td>
+                            </tr>
+        
+                            <tr>
+                                <td>Payable Amount</td>
+                                <td colspan="3" align="right" id="total-pay" style="font-weight: bold;"><%= total %></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            
             
             
             <div class="row mb-5">
